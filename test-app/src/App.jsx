@@ -2,6 +2,7 @@ import './App.css';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Sidebar from './components/Sidebar/Sidebar';
+import Content from './components/Content/Content';
 
 export default function App() {
     return (
@@ -23,8 +24,12 @@ export default function App() {
         // </div>
         <div className="App">
             <Header  />
-            <Sidebar />
-            <main>Huiui</main>
+            <main>
+                <Sidebar />
+                <div className="content">
+                    <Content />
+                </div>
+            </main>
             <Footer />
         </div>
         // <main>Huiui</main>

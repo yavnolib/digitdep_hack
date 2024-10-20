@@ -1,3 +1,21 @@
-.sidebar {
-    
+.btns {
+
+}
+button {
+    width: 50%;
+    border: none;
+    height: 40px;
+    background-color: #06548A;
+    color: white;
+}
+button:disabled {
+    background-color: #067AC7;
+}
+.sidebar-content {
+    height: 450px;
+    width: 100%;
+    background-color: #067AC7;
+}
+button:focus{
+    background-color: #067AC7;
 }

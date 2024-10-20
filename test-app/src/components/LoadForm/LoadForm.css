@@ -1,0 +1,20 @@
+.xlsx-img {
+    width: 25%;
+    display: inline-block;
+}
+.file-description {
+    width: 75%;
+    display: inline-block;
+}
+.load-form{
+    margin: 20%;
+}
+.fileD {
+    margin: 0;
+}
+.load-form {
+    border: dashed white;
+    border-radius: 10px;
+    padding: 3%;
+
+}
