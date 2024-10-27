@@ -8,10 +8,10 @@
     padding: 0;
     margin: 0;
     color: white;
-}
+}   
 .content {
     width: 65%;
-    display: inline-block;
+    display: inline-block;  
 }
 main {
     display: inline-block;
