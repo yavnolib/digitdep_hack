@@ -13,17 +13,50 @@
 
 1. Склонируйте репозиторий:
    ```bash
-   git clone https://github.com/your-repo/mtr-lotting-algorithm.git
+   git clone https://github.com/yavnolib/digitdep_hack.git
    ```
-
+   or
+   ```bash
+   git clone git@github.com:yavnolib/digitdep_hack.git
+   ```
 2. Перейдите в директорию проекта:
    ```bash
    cd digitdep_hack
    ```
 
+3. Запустите и дождитесь окончания:
+```
+docker compose up --build
+```
 
+4. Войдите в контейнер `ubuntu_client`:
+```
+docker exec -it ubuntu_client bash
+```
+и введите:
+```
+ubuntu_client> $ source venv/bin/activate
+ubuntu_client> $ python3 db_controller.py --mode 0 --cache_folder /mnt/cache
+```
+Бэкенд полностью готов к работе.
+
+## Дополнительно
+
+1. При необходимости запустить парсер координат адресов **новых** грузополучателей (например, из файла /mnt/buyer.xlsx в котором **нет координат**) и обновления базы данных координат грузополучателей введите:
+```
+python3 db_controller.py --mode 1 --buyer_path /mnt/buyer.xlsx
+```
+
+2. Чтобы обновить базу данных координат грузополучателей из файла buyer.xlsx **с уже имеющимися координатами** введите:
+```
+python3 db_controller.py --mode 2 --buyer_path /mnt/buyer.xlsx
+```
+Внимание! CSV-файл в таком случае должен быть вида:
+```
+code, addr, geo
+1234,"Адрес","100.0,110.0"
+```
+где координаты записаны в формате: `"<degrees NORTH latitude>,<degrees EAST longitude>"`. Если получатель с таким кодом уже есть в базе данных, то он НЕ будет перезаписан.
 
 ### Параметры:
-
-- `--input`: путь к файлу с заявками на закупку (формат: .xlsx)
-- `--output`: путь к файлу для сохранения результатов лотирования.
+- `input`: путь к файлу с заявками на закупку (формат: .xlsx)
