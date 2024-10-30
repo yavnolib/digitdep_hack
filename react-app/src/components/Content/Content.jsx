@@ -1,9 +1,10 @@
 import "./Content.css"
-export default function Content() {
+export default function Content( {mainContent, bigCard, mainContentRef} )
+{
     return(
-        <div className="sample">
-            Для простмотра статистики по лотам загрузите файл по <a className="sample-link" href="#">следующему образцу</a>.
+        <div className="main-content" ref={mainContentRef}>
+            {mainContent}
+            {bigCard}
         </div>
-
-    )
+    );
 }
