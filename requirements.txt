@@ -63,4 +63,3 @@ traitlets==5.14.3
 tzdata==2024.2
 wcwidth==0.2.13
 yargy==0.16.0
-torch
