@@ -27,11 +27,15 @@
    ```
    unzip data.zip
    ```
-4. Запустите и дождитесь окончания:
+4. Запустите и дождитесь окончания сборки проекта:
 ```
-docker compose up --build
+docker compose build
 ```
-5. Войдите в контейнер `ubuntu_client`:
+5. Запустите сервис:
+```
+docker compose up
+```
+6. Войдите в контейнер `ubuntu_client`:
 ```
 docker exec -it ubuntu_client bash
 ```
