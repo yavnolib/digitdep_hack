@@ -87,6 +87,9 @@ class Clustering:
         return clusters_4
     
     def jsonify(self, df):
+        descr = df.groupby('cluster_num').apply(
+            lambda x: dict(zip(x['Краткий текст материала'], x['Общее количество'].astype(str) + x['ЕИ']))
+        ).reset_index(name='description')
         valid_popularity = df.groupby('cluster_num').apply(lambda x: x['cluster_num'].count()).drop(-1) # 2
         v_df = (valid_popularity / valid_popularity.sum()).reset_index()
         v_df.columns = ['cluster_num', 'rate']
@@ -96,9 +99,9 @@ class Clustering:
         unique_buyers = df.groupby('cluster_num').apply(lambda x: x['Грузополучатель'].unique().shape[0]).reset_index(name='unique_buyers') # 4
         n_members = df.groupby('cluster_num').apply(lambda x: x['cluster_num'].count()).reset_index(name='n_members') # 2
         lot_sum = df.groupby('cluster_num').apply(lambda x: x['Цена'].sum()).reset_index(name='lot_sum') # 3
-        metric_df = unique_mats.merge(unique_buyers).merge(n_members).merge(lot_sum)
+        metric_df = unique_mats.merge(unique_buyers).merge(n_members).merge(lot_sum).merge(descr)
         metric_df['is_top'] = metric_df.cluster_num.isin(top_clusters)
-        return metric_df.set_index('cluster_num').to_json(orient='index')
+        return metric_df.set_index('cluster_num').to_json(orient='index', force_ascii=False)
     
     def transform(self):
         clusters_1 = self.apply_first()
@@ -126,7 +129,7 @@ class Clustering:
 
         self.res_df = res_df
         returned_value = res_df.drop(columns=cols_to_drop)
-        return returned_value, cl.jsonify(returned_value)
+        return returned_value, self.jsonify(returned_value)
 
 
 if __name__ == '__main__':
