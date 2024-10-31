@@ -8,7 +8,6 @@ services:
       POSTGRES_DB: lotdb
     ports:
       - "7799:5432"
-      - "7892:8080"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
@@ -20,8 +19,8 @@ services:
       dockerfile: docker/ubuntu/Dockerfile  # Указываем Dockerfile для сборки
     container_name: ubuntu_client
     tty: true  # Оставляет контейнер работающим для подключения
-    volumes:
-      - .:/mnt  # Монтируем текущую директорию в /mnt контейнера
+    ports:
+      - "7892:8080"
     networks:
       - db_network
 

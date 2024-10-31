@@ -29,6 +29,8 @@ from src.cluster.materials.matclust import MaterialCluster
 import numpy as np
 from copy import deepcopy
 
+import time
+
 
 class Clustering:
     def __init__(self, input_df, data_folder='/mnt/data', use_postgre=False):
@@ -42,8 +44,8 @@ class Clustering:
         
         self.tech_cols = ['time_cluster_1', 'time_cluster_2', 'geo_cluster', 'material_cluster']
 
-        self.clustering_1 = ApplicationTimeClassificator(self.df, self.vedom, self.sprav, self.mtr, self.problem_data)
-        self.clustering_2 = DeliveryTimeClassificator(self.df, self.vedom, self.sprav, self.mtr, self.problem_data, max_dif=30)
+        self.clustering_1 = ApplicationTimeClassificator(self.df, self.sprav, self.mtr, self.problem_data)
+        self.clustering_2 = DeliveryTimeClassificator(self.df, self.sprav, self.mtr, self.problem_data, max_dif=30)
         self.clustering_3 = GeoClassificator(use_postgre=use_postgre)
         self.clustering_4 = MaterialCluster()
 
@@ -74,7 +76,7 @@ class Clustering:
         return clusters_1
     
     def apply_second(self):
-        clusters_2 = self.clustering_2.transform()
+        clusters_2 = self.clustering_2.transform_2()
         clusters_2.time_cluster_2 = clusters_2.time_cluster_2.apply(lambda x: x if not pd.isna(x) else -1)
         return clusters_2
     
@@ -124,9 +126,8 @@ class Clustering:
         for k in cluster_mapping:
             if (-1. in k):
                 cluster_mapping.update({k: -1})
-        # res_df['cluster_num'] = res_df[cols_to_drop].apply(lambda x: tuple(x[i] for i in cols_to_drop), axis=1).map(cluster_mapping)
-        res_df['cluster_num'] = res_df[cols_to_drop].apply(lambda x: tuple(x[i] for i in cols_to_drop), axis=1).map(cluster_mapping)
 
+        res_df['cluster_num'] = res_df[cols_to_drop].apply(lambda x: tuple(x[i] for i in cols_to_drop), axis=1).map(cluster_mapping)
         self.res_df = res_df
         returned_value = res_df.drop(columns=cols_to_drop)
         return returned_value, self.jsonify(returned_value)

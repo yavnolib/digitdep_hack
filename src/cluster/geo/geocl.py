@@ -1,14 +1,13 @@
+import sys
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
-from pathlib import Path
 from tqdm import tqdm
 
-import sys
+from src.db_iface import PostgreIface
 
 # sys.path.append("/mnt")
-
-
-from src.db_iface import PostgreIface
 
 
 class GeoClassificator:
@@ -29,7 +28,7 @@ class GeoClassificator:
             known = self.postgre.read_table("buyer")
             known.code = known.code.astype(int)
         else:
-            known = pd.read_csv('/mnt/cache/buyer.csv')
+            known = pd.read_csv("/mnt/cache/buyer.csv")
         return known
 
     @staticmethod
@@ -68,9 +67,7 @@ class GeoClassificator:
         return distance
 
     @staticmethod
-    def get_neighbours(
-        data: np.ndarray, dist_func, point: np.ndarray, eps: int
-    ):
+    def get_neighbours(data: np.ndarray, dist_func, point: np.ndarray, eps: int):
         """
         Finds all neighbours
 
@@ -127,9 +124,7 @@ class GeoClassificator:
         for i in tqdm(range(data.shape[0])):
             if labels[i] != -1:
                 continue
-            neighbours = GeoClassificator.get_neighbours(
-                data, dist_func, data[i], eps
-            )
+            neighbours = GeoClassificator.get_neighbours(data, dist_func, data[i], eps)
             if len(neighbours) < min_pts:
                 labels[i] = -2
                 continue
@@ -140,7 +135,6 @@ class GeoClassificator:
             )
         return labels
 
-
     def fit(self):
         self.geo_inf = self.fetch_known_buyer()
         self.geo_inf["lat"] = pd.to_numeric(
@@ -150,9 +144,7 @@ class GeoClassificator:
         self.geo_inf["lon"] = pd.to_numeric(
             self.geo_inf.geo.apply(
                 lambda x: (
-                    str(x).split(",")[1]
-                    if len(str(x).split(",")) > 1
-                    else np.nan
+                    str(x).split(",")[1] if len(str(x).split(",")) > 1 else np.nan
                 )
             ),
             errors="coerce",
@@ -162,9 +154,7 @@ class GeoClassificator:
         )
         X = self.geo_inf[self.geo_inf.geo_cluster != -1][["lat", "lon"]].values
         labels = self.dbscan(X, self.dist, 1200, 3)
-        self.geo_inf.loc[self.geo_inf["geo_cluster"] != -1, "geo_cluster"] = (
-            labels
-        )
+        self.geo_inf.loc[self.geo_inf["geo_cluster"] != -1, "geo_cluster"] = labels
 
         unique_values, counts = np.unique(labels, return_counts=True)
         second_stage = self.geo_inf[
@@ -194,12 +184,12 @@ class GeoClassificator:
             print(f"An error occurred while creating the directory: {e}")
 
         self.fit()
-        self.geo_inf.to_csv(path, index=False, encoding='UTF-8')
+        self.geo_inf.to_csv(path, index=False, encoding="UTF-8")
 
     def transform(
         self,
         data: pd.DataFrame,
-        columns: tuple = ("Грузополучатель", ),
+        columns: tuple = ("Грузополучатель",),
         path: str = "/mnt/geodata/buyer_coordinates.csv",
     ):
         """
@@ -218,5 +208,5 @@ class GeoClassificator:
 
         merged_df = data.merge(
             coordinates[[columns[0], "geo_cluster"]], on=columns, how="left"
-        ).fillna(-1.)
+        ).fillna(-1.0)
         return merged_df
