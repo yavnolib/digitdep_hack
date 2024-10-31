@@ -23,13 +23,15 @@
    ```bash
    cd digitdep_hack
    ```
-
-3. Запустите и дождитесь окончания:
+3. Скачайте предоставленный архив data.zip и распакуйте его в корне проекта:
+   ```
+   unzip data.zip
+   ```
+4. Запустите и дождитесь окончания:
 ```
 docker compose up --build
 ```
-
-4. Войдите в контейнер `ubuntu_client`:
+5. Войдите в контейнер `ubuntu_client`:
 ```
 docker exec -it ubuntu_client bash
 ```
