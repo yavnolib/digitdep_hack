@@ -35,15 +35,10 @@ docker compose build --no-cache
 ```
 docker compose up -d
 ```
-6. Войдите в контейнер `ubuntu_client`:
+6. Бэкенд будет полностью готов к работе через 10 секунд. Войдите в контейнер `ubuntu_client`:
 ```
 docker exec -it ubuntu_client bash
 ```
-и введите:
-```
-ubuntu_client> $ python3 db_controller.py --mode 0 --cache_folder /mnt/cache
-```
-Бэкенд полностью готов к работе.
 
 ## Дополнительно
 
