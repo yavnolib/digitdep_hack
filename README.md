@@ -67,7 +67,8 @@ docker compose up
 docker compose down
 docker compose up
 ```
-6. Бэкенд будет полностью готов к работе через 10 секунд. Войдите в контейнер `ubuntu_client`:
+Как только появилась надпись "Таблица создана и данные успешно добавлены! 100%" - сервис полностью готов к работе
+6. Войдите в контейнер `ubuntu_client`:
 ```
 docker exec -it ubuntu_client bash
 ```
