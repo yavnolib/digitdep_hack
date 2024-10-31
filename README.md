@@ -68,6 +68,7 @@ docker compose down
 docker compose up
 ```
 Как только появилась надпись "Таблица создана и данные успешно добавлены! 100%" - сервис полностью готов к работе
+
 6. Войдите в контейнер `ubuntu_client`:
 ```
 docker exec -it ubuntu_client bash
