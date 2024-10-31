@@ -24,6 +24,8 @@
 2. Чтобы установить и запустить сервис из переданных докер образов введите:
    ```
    docker load -i ubuntu_client_image_latest.tar.gz
+   ```
+   ```
    docker load -i gpn_postgres_db_image_latest.tar.gz
    ```
    Далее, запустите:
