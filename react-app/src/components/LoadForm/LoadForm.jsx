@@ -34,11 +34,11 @@ export default function LoadForm({setMainContent, setBigCard, mainContentRef, da
             
             const result = await response.json();
             setData(result); 
-            console.log(Object.keys(result))
+            // console.log(Object.keys(result))
             let cards = [];
             Object.keys(result).forEach(i => {
-                console.log(result[i]);
-                cards.push(<LotCardSmall lotNum={i} description={result[i]["description"]} startDate={result[i]["start_date"]} endDate={result[i]["end_date"]} setBigCard={setBigCard} mainContentRef={mainContentRef}/>)
+                // console.log(result[i]);
+                cards.push(<LotCardSmall lotNum={i} uniqueMats={result[i]["unique_mats"]} uniqueBuyers={result[i]["unique_buyers"]} numMembers={result[i]["n_members"]} description={result[i]["description"]} lotSum={result[i]["lot_sum"]} isTop={result[i]["is_top"]} setBigCard={setBigCard} mainContentRef={mainContentRef}/>)
                 // console.log("OI") // Выводим значение по ключу
             });
             setMainContent(cards)
