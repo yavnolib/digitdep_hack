@@ -10,7 +10,7 @@ RUN apt update && \
 
 # Копируем requirements.txt
 COPY requirements.txt /mnt/requirements.txt
-
+COPY . /mnt/
 # Устанавливаем зависимости из requirements.txt с использованием --break-system-packages
 RUN pip3 install --break-system-packages -r /mnt/requirements.txt
 
