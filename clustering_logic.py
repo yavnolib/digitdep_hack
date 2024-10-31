@@ -29,6 +29,8 @@ from src.cluster.materials.matclust import MaterialCluster
 import numpy as np
 from copy import deepcopy
 
+import time
+
 
 class Clustering:
     def __init__(self, input_df, data_folder='/mnt/data', use_postgre=False):
@@ -42,8 +44,8 @@ class Clustering:
         
         self.tech_cols = ['time_cluster_1', 'time_cluster_2', 'geo_cluster', 'material_cluster']
 
-        self.clustering_1 = ApplicationTimeClassificator(self.df, self.vedom, self.sprav, self.mtr, self.problem_data)
-        self.clustering_2 = DeliveryTimeClassificator(self.df, self.vedom, self.sprav, self.mtr, self.problem_data, max_dif=30)
+        self.clustering_1 = ApplicationTimeClassificator(self.df, self.sprav, self.mtr, self.problem_data)
+        self.clustering_2 = DeliveryTimeClassificator(self.df, self.sprav, self.mtr, self.problem_data, max_dif=30)
         self.clustering_3 = GeoClassificator(use_postgre=use_postgre)
         self.clustering_4 = MaterialCluster()
 
@@ -74,7 +76,7 @@ class Clustering:
         return clusters_1
     
     def apply_second(self):
-        clusters_2 = self.clustering_2.transform()
+        clusters_2 = self.clustering_2.transform_2()
         clusters_2.time_cluster_2 = clusters_2.time_cluster_2.apply(lambda x: x if not pd.isna(x) else -1)
         return clusters_2
     
@@ -104,10 +106,15 @@ class Clustering:
         return metric_df.set_index('cluster_num').to_json(orient='index', force_ascii=False)
     
     def transform(self):
+        a = time.perf_counter()
         clusters_1 = self.apply_first()
+        b = time.perf_counter()
         clusters_2 = self.apply_second()
+        c = time.perf_counter()
         clusters_3 = self.apply_third()
+        d = time.perf_counter()
         clusters_4 = self.apply_fourth()
+        e = time.perf_counter()
 
         # Result df
         res_df = self.df_geo
@@ -117,7 +124,7 @@ class Clustering:
             res_df['geo_cluster'] = clusters_3['geo_cluster']
         if clusters_4 is not None:
             res_df['material_cluster'] = clusters_4['material_cluster']
-
+        f = time.perf_counter()
         # Get result cluster
         cols_to_drop = list(set(res_df.columns.tolist()) & set(self.tech_cols))
         cluster_mapping = {tuple(k):v for v, k in enumerate(np.unique(res_df[cols_to_drop].values, axis=0).tolist())}
@@ -126,9 +133,10 @@ class Clustering:
                 cluster_mapping.update({k: -1})
         # res_df['cluster_num'] = res_df[cols_to_drop].apply(lambda x: tuple(x[i] for i in cols_to_drop), axis=1).map(cluster_mapping)
         res_df['cluster_num'] = res_df[cols_to_drop].apply(lambda x: tuple(x[i] for i in cols_to_drop), axis=1).map(cluster_mapping)
-
+        g = time.perf_counter()
         self.res_df = res_df
         returned_value = res_df.drop(columns=cols_to_drop)
+        print(f'1: {b-a}, 2: {c-b}, 3: {d-c}, 4: {e-d}, 5: {f-e}, 6:{g-f}')
         return returned_value, self.jsonify(returned_value)
 
 
