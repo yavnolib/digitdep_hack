@@ -29,7 +29,7 @@
    ```
 4. Запустите и дождитесь окончания сборки проекта:
 ```
-docker compose build
+docker compose build --no-cache
 ```
 5. Запустите сервис:
 ```
