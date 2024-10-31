@@ -27,3 +27,19 @@
     border: #067AC7;
     border-width: 20px;
 }
+.all-lot-count {
+    width: 95%;
+    margin-left: 5%;
+    text-align: left;
+    font-weight: bold;
+    color: #067AC7;
+    font-size: 200%;
+}
+.content-header {
+    width: 100%;
+    
+}
+.loader {
+    margin-top: 30vh;
+    vertical-align: middle;
+}

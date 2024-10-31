@@ -1,6 +1,6 @@
 .big-card {
     position: absolute; /* Устанавливаем блок "абсолютным" относительно родителя */
-    top: 40px; /* Смещение от верхнего края родителя */
+    top: 20px; /* Смещение от верхнего края родителя */
     right: 40px; /* Смещение от правого края родителя */
     background-color: white; 
     z-index: 10; /* Обеспечиваем наложение поверх остальных элементов */
@@ -13,8 +13,8 @@
 }
 .for-blur {
     
-    position: absolute;
-    top: 10px; /* Смещение от верхнего края родителя */
+    position: sticky;
+    top: 0px; /* Смещение от верхнего края родителя */
     right: 10px; 
     height: 76vh;
     width: 100%;
@@ -27,11 +27,11 @@
 	position: absolute;
 	top: 30px;
 	right: 42px;
-	width: 24px;
-	height: 24px;
-	opacity: 0.8;
+	width: 46px;
+	height: 42px;
+	opacity: 0.6;
 	cursor: pointer;
-    transition: opacity ease 0.5s;
+    transition: opacity ease 0.3s;
 
 	&:hover {
 		opacity: 1;
@@ -46,6 +46,8 @@
 	display: block;
 	width: 50px;
 	height: 2.5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 	background: #055165;
 }
 
@@ -75,11 +77,27 @@
     background-color: #055165;
     /* padding-top: 10%; */
     /* padding-bottom: 10%; */
-    min-height: 38vh;
+    height: 38vh;
     text-align: left;
     padding: 2%;
+    overflow-y: scroll;
     margin: 2%;
     margin-top: 0;
     margin-bottom: 0;
     color: white;
+}
+.description-big::-webkit-scrollbar {
+    width: 10px;
+}
+.description-big::-webkit-scrollbar-track {
+    /* box-shadow: inset 0 0 5px grey; */
+    border-radius: 10px;
+}
+.description-big::-webkit-scrollbar-thumb {
+    background: #043e4e;
+    border-radius: 5px;
+    min-height: 5px;
+}
+.description-big-item {
+    margin-top: 10px;
 }

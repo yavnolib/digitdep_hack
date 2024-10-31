@@ -3,10 +3,10 @@ import Instructions from "../Instructions/Instructions";
 import Autolotion from "../Autolotation/Autolotation";
 import { useState, useEffect } from "react";
 
-export default function Sidebar({setMainContent, setBigCard, mainContentRef, dataLoaded, setDataLoaded}) {
+export default function Sidebar({setMainContent, setBigCard, mainContentRef, dataLoaded, setDataLoaded, setLotCount}) {
     // console.log(setMainContent)
     // setDataLoaded("LI")
-    const [sidebarContent, setContent] = useState(<Autolotion setMainContent={setMainContent} setBigCard={setBigCard} mainContentRef={mainContentRef} dataLoaded={dataLoaded} setDataLoaded = {setDataLoaded}/>);
+    const [sidebarContent, setContent] = useState(<Autolotion setMainContent={setMainContent} setBigCard={setBigCard} mainContentRef={mainContentRef} dataLoaded={dataLoaded} setDataLoaded = {setDataLoaded} setLotCount={setLotCount} />);
     const [isAutolotationButtonPressed, setIsAutolotationButtonPressed] = useState(false);
     const [isInstructionsButtonPressed, setIsInstructionsButtonPressed] = useState(false);
     function clickHandleInstructions() {
@@ -23,7 +23,7 @@ export default function Sidebar({setMainContent, setBigCard, mainContentRef, dat
     });
 
     function clickHandleAutolotation() {
-        setContent(<Autolotion setMainContent={setMainContent} setBigCard={setBigCard} mainContentRef={mainContentRef} dataLoaded={dataLoaded} setDataLoaded={setDataLoaded} />);
+        setContent(<Autolotion setMainContent={setMainContent} setBigCard={setBigCard} mainContentRef={mainContentRef} dataLoaded={dataLoaded} setDataLoaded={setDataLoaded} setLotCount={setLotCount} />);
         setIsAutolotationButtonPressed(true);
         setIsInstructionsButtonPressed(false);
     }

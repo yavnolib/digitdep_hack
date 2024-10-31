@@ -1,11 +1,28 @@
 import "./LotCardBig.css"
+import { useEffect } from "react";
 
-export default function LotCardBig({lotNum, description, startDate, endDate, status, setBigCard, mainContentRef}) {
+export default function LotCardBig({lotNum, uniqueMats, uniqueBuyers, numMembers, description, lotSum, isTop, setBigCard, mainContentRef}) {
     function handleCloseClick(){
         setBigCard("")
         document.body.style.overflow = '';
         mainContentRef.current.style.overflow = '';
     }
+    useEffect(() => {
+        const handleEsc = (event) => {
+            if (event.key === 'Escape') {
+                setBigCard("")
+                document.body.style.overflow = '';
+                mainContentRef.current.style.overflow = '';
+            }
+        };
+        window.addEventListener('keydown', handleEsc);
+    
+        return () => {
+          window.removeEventListener('keydown', handleEsc);
+        };
+      }, []);
+    
+    let descriptionBig = [];
     return(
         <div className="for-blur">
             <div className="big-card">
@@ -19,7 +36,12 @@ export default function LotCardBig({lotNum, description, startDate, endDate, sta
                     <div className="closeModal" role="button" onClick={handleCloseClick}></div>
                 </div>
                 <div className="description-big">
-                    {description}
+                    {Object.keys(description).forEach(i => {
+                        descriptionBig.push(<li className="description-big-item">{i}: {description[i]}</li>)
+                    })}
+                    <ul className="description-description-big-list">
+                        {descriptionBig}
+                    </ul>
                 </div>
             </div>
         </div>

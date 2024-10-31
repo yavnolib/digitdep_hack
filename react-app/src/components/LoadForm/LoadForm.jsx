@@ -7,7 +7,7 @@ function timeout(delay) {
     return new Promise( res => setTimeout(res, delay) );
 }
 
-export default function LoadForm({setMainContent, setBigCard, mainContentRef, dataLoaded, setDataLoaded}) {
+export default function LoadForm({setMainContent, setBigCard, mainContentRef, dataLoaded, setDataLoaded, setLotCount}) {
     function Loader() {
         return (
           <RotatingLines
@@ -25,20 +25,22 @@ export default function LoadForm({setMainContent, setBigCard, mainContentRef, da
         const file = event.target.files[0];
         // console.log(event.target.files[0]);
         formData.append(file.name, file);
-        setMainContent(<Loader/>); // Начало загрузки
+        setMainContent(<div className="loader"><Loader/></div>); // Начало загрузки
         try {
             const response = await fetch("/api/upload", {
                 method: "POST",
                 body: formData,
             });
-            
+
             const result = await response.json();
-            setData(result); 
-            console.log(Object.keys(result))
+            // setData(result); 
+            // console.log(Object.keys(result))
             let cards = [];
-            Object.keys(result).forEach(i => {
-                console.log(result[i]);
-                cards.push(<LotCardSmall lotNum={i} description={result[i]["description"]} startDate={result[i]["start_date"]} endDate={result[i]["end_date"]} setBigCard={setBigCard} mainContentRef={mainContentRef}/>)
+            setDataLoaded(result["file"])
+            setLotCount(Object.keys(result["json"]).length)
+            Object.keys(result["json"]).forEach(i => {
+                // console.log(result[i]);
+                cards.push(<LotCardSmall lotNum={i} uniqueMats={result["json"][i]["unique_mats"]} uniqueBuyers={result["json"][i]["unique_buyers"]} numMembers={result["json"][i]["n_members"]} description={result["json"][i]["description"]} lotSum={result["json"][i]["lot_sum"]} isTop={result["json"][i]["is_top"]} setBigCard={setBigCard} mainContentRef={mainContentRef}/>)
                 // console.log("OI") // Выводим значение по ключу
             });
             setMainContent(cards)
