@@ -62,6 +62,11 @@ docker compose build --no-cache
 ```
 docker compose up
 ```
+Если вышла надпись, что невозможно подключиться к postgres, то перезапустите docker compose (так происходит из-за того, что postgres не успевает инициализроваться):
+```
+docker compose down
+docker compose up
+```
 6. Бэкенд будет полностью готов к работе через 10 секунд. Войдите в контейнер `ubuntu_client`:
 ```
 docker exec -it ubuntu_client bash
