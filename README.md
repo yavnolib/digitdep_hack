@@ -23,6 +23,11 @@
 1. В качестве финального решения репозиторий был передан в формате двух докер-образов: `ubuntu_client_image_latest.tar.gz` и `gpn_postgres_db_image_latest.tar.gz`.
 2. Чтобы установить и запустить сервис из переданных докер образов введите:
    ```
+   docker load -i ubuntu_client_image_latest.tar.gz
+   docker load -i gpn_postgres_db_image_latest.tar.gz
+   ```
+   Далее, запустите:
+   ```
    docker network create db_network
    docker run --name gpn_postgres_db --network db_network -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=12345678 -e POSTGRES_DB=lotdb -p 7799:5432 gpn_postgres_db_image
    ```
@@ -30,7 +35,7 @@
    ```
    docker run -it --name ubuntu_client --network db_network -p 7892:8080 ubuntu_client_image
    ```
-3. На этом моменте сервис является полностью запущенным и готовым к работе. Для тестирования перейдите по ссылке:
+4. На этом моменте сервис является полностью запущенным и готовым к работе. Для тестирования перейдите по ссылке:
    ```
    https://0.0.0.0:7892
    ```
