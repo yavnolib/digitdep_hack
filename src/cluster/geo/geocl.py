@@ -29,7 +29,7 @@ class GeoClassificator:
             known = self.postgre.read_table("buyer")
             known.code = known.code.astype(int)
         else:
-            known = pd.read_csv('cache/buyer.csv')
+            known = pd.read_csv('/mnt/cache/buyer.csv')
         return known
 
     @staticmethod

@@ -8,6 +8,7 @@ services:
       POSTGRES_DB: lotdb
     ports:
       - "7799:5432"
+      - "7892:8080"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
