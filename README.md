@@ -33,7 +33,7 @@ docker compose build
 ```
 5. Запустите сервис:
 ```
-docker compose up
+docker compose up -d
 ```
 6. Войдите в контейнер `ubuntu_client`:
 ```
