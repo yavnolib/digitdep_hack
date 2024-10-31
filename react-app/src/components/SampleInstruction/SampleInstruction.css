@@ -1,0 +1,11 @@
+.sample {
+    color: #196BAD;
+}
+.sample-link {
+    text-decoration: underline;
+    color: #196BAD;
+    border: none;
+    background-color: white;
+    cursor: pointer;
+    font-size: 100%;
+}
