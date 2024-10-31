@@ -5,13 +5,13 @@ venv
 __pycache__/
 *.py[cod]
 *$py.class
-
+react-app/node_modules
+flask-app/build_old*
 # C extensions
 *.so
 
 # Distribution / packaging
 .Python
-build/
 develop-eggs/
 dist/
 downloads/

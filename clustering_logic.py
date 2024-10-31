@@ -31,7 +31,7 @@ from copy import deepcopy
 
 
 class Clustering:
-    def __init__(self, input_df, data_folder='data', use_postgre=False):
+    def __init__(self, input_df, data_folder='/mnt/data', use_postgre=False):
         self.df_geo = input_df
         self.df = deepcopy(self.df_geo).astype(str)
 

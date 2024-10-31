@@ -10,7 +10,7 @@ class PostgreIface:
             'dbname': 'lotdb',
             'user': 'admin',
             'password': '12345678',
-            'host': 'postgres',
+            'host': 'gpn_postgres_db',
             'port': 5432
         }
     
