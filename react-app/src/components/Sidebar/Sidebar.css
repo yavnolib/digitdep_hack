@@ -9,6 +9,7 @@
     background-color: #06548A;
     color: white;
     vertical-align: bottom;
+    cursor: pointer;
 }
 .sidebar-btn:disabled {
     width: 51%;

@@ -12,15 +12,16 @@ export default function App() {
     const [bigCard, setBigCard] = useState();
     const [dataLoaded, setDataLoaded] = useState("li");
     const mainContentRef = useRef(null);
+    const [lotCount, setLotCount] = useState()
     // setDataLoaded("LI");
     return (
         <div className="App">
             <Header  />
             <main>
                 
-                <Sidebar setMainContent = {setMainContent} setBigCard = {setBigCard} mainContentRef={mainContentRef} dataLoaded={dataLoaded} setDataLoaded={setDataLoaded} />
+                <Sidebar setMainContent = {setMainContent} setBigCard = {setBigCard} mainContentRef={mainContentRef} dataLoaded={dataLoaded} setDataLoaded={setDataLoaded} setLotCount={setLotCount}/>
                 <div className="content">
-                    <Content mainContent = {mainContent} bigCard = {bigCard} mainContentRef={mainContentRef}/>
+                    <Content mainContent = {mainContent} bigCard = {bigCard} mainContentRef={mainContentRef} dataLoaded={dataLoaded} lotCount={lotCount}/>
                 </div>
             </main>
             <Footer />
