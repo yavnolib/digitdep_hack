@@ -97,7 +97,7 @@ def get_data():
 
     # print(req)
     # os.makedirs("uploaded_files")
-    file.to_csv("./uploaded_files/" + ".".join(file_name.split(".")[:-1]) + ".csv")
+    file.to_csv("/mnt/flask-app/uploaded_files/" + ".".join(file_name.split(".")[:-1]) + ".csv")
     # file_counter += 1
     # time.sleep(0.5)
     cl = Clustering(file, data_folder='/mnt/data', use_postgre=False)
