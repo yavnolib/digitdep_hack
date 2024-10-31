@@ -33,7 +33,7 @@ docker compose build --no-cache
 ```
 5. Запустите сервис:
 ```
-docker compose up -d
+docker compose up
 ```
 6. Бэкенд будет полностью готов к работе через 10 секунд. Войдите в контейнер `ubuntu_client`:
 ```
