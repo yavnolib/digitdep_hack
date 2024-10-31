@@ -9,7 +9,7 @@ export default function Autolotion({setMainContent, setBigCard, mainContentRef, 
     
     return(
         <div className="autolotation-content">
-            <p className="h3">Автоматичкское лотирование заявок на закупку МТР</p>
+            <p className="h3">Автоматическое лотирование заявок на закупку МТР</p>
             {/* { AutolotationContent } */}
             <LoadForm setMainContent={setMainContent} setBigCard={setBigCard} mainContentRef={mainContentRef} dataLoaded={dataLoaded} setDataLoaded={setDataLoaded} setLotCount={setLotCount} />
             

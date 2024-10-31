@@ -1,4 +1,10 @@
-p {
+.instru {
     margin: 0;
-    padding-top: 10%;
+    padding-top: 5%;
+    margin-left: 20px;
+    text-align: left;
+    font-size: 120%;
+}
+.insrtrucitons-content {
+    padding-top: 30px;
 }

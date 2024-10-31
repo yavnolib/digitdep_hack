@@ -131,6 +131,19 @@ def after_upload():
             "Content-Disposition": "attachment; filename=data.csv"
         }
     )
+@app.route("/sample")
+def sample_page():
+    sample = pd.read_excel("./uploaded_files/Загрузочный файл - Шаблон.xlsx")
+    output = BytesIO()
+    with pd.ExcelWriter(output, engine='openpyxl') as writer:
+        sample.to_excel(writer, index=False, sheet_name='Sheet1')
+    output.seek(0)  
+    
+    # Возвращаем CSV-данные как вложение для скачивания
+    return Response(
+        output,
+        mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
 
 @app.route("/")
 def default_page():
