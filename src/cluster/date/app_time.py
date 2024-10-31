@@ -1,25 +1,31 @@
-
-import pandas as pd
-import numpy as np
 from copy import deepcopy
+
+import numpy as np
+import pandas as pd
 
 
 class ApplicationTimeClassificator:
+    def __init__(
+        self,
+        df: pd.DataFrame,
+        sprav: pd.DataFrame,
+        mtr: pd.DataFrame,
+        problem_data: pd.DataFrame,
+    ):
+        """
+        Инициализация кластеризатора
 
-    def __init__(self, df, vedom, sprav, mtr, problem_data):
+        :param: df - Загрузочный файл
+        :param: sprav - Таблица с номером материала, кратким описанием и номером класса МТР
+        :param: mtr - Таблица со всеми колонками по МТР
+        :param: problem_data - pd.DataFrame проблемных заявок (невозможно провести кластеризацию, т.к. изначально не удовлетворяют ограничениям)
         """
-            Принимает на вход xlsx Загрузочного файла.
-            Дополнительно инициализирует excel-таблицы с данными про МТР-кабели + нормативные сроки
-            Получаем таблицу MTR при merge, которая содержат id товара MTR и его нормативные сроки поставки
-        """
-        self.drop_cols = ['level_0', 'срок', 'Проблемная заявка']
+        self.drop_cols = ["level_0", "срок", "Проблемная заявка"]
 
         self.df = deepcopy(df)
-        self.vedom = deepcopy(vedom)
         self.sprav = deepcopy(sprav)
         self.mtr = deepcopy(mtr)
         self.problem_data = problem_data
-    
 
     def preprocessing(self):
         """
@@ -27,39 +33,30 @@ class ApplicationTimeClassificator:
         с не проходящими по нормам сроками доставок
         Сортировка данных по возрастанию даты заказа
         """
-        
-        self.time_clust_1 = np.zeros_like(self.df['Дата заказа'], dtype=int)
-        self.df.sort_values(by='Дата заказа', inplace=True)
+
+        self.time_clust_1 = np.zeros_like(self.df["Дата заказа"], dtype=int)
+        self.df.sort_values(by="Дата заказа", inplace=True)
         self.df.reset_index(inplace=True)
 
     def __str__(self):
-        return f'time classificator for application dates'
+        return f"time classificator for application dates"
 
     def fit(self):
         """
-        Сортировка в кластеры по датам ЗАЯВКИ с одинаковым календарным месяцем
+        Кластеризует даты заявок в DataFrame, присваивая каждой уникальной комбинации
+        месяц-год идентификатор кластера. Каждый кластер представляет собой непрерывный
+        период в рамках одного месяца и года.
         """
-
         try:
-            month = self.df['Дата заказа'].iloc[0].month
-            year = self.df['Дата заказа'].iloc[0].year
-            self.time_clust_1[0] = 0
+            # Извлекаем период месяц-год из столбца 'Дата заказа' и вычисляем идентификаторы кластеров
+            self.df["month_year"] = self.df["Дата заказа"].dt.to_period("M")
+            self.df["time_cluster_1"] = (
+                self.df["month_year"] != self.df["month_year"].shift()
+            ).cumsum() - 1
+            self.df.drop(columns="month_year", inplace=True)
 
         except Exception as e:
-            print(e)
-
-        for i, el in self.df['Дата заказа'].items():
-
-            if i == 0:
-                continue
-            if el.month == month and el.year == year:
-                self.time_clust_1[i] = self.time_clust_1[i-1]
-            else:
-                month = el.month
-                year = el.year
-                self.time_clust_1[i] = self.time_clust_1[i-1] + 1
-
-        self.df['time_cluster_1'] = pd.Series(self.time_clust_1)
+            print(f"Произошла ошибка: {e}")
 
     def transform(self):
         """
@@ -71,4 +68,10 @@ class ApplicationTimeClassificator:
         exist_cols = self.df.columns.tolist()
         res = self.df
         problems = self.problem_data.reset_index()
-        return pd.concat([res, problems]).drop(columns=list(set(self.drop_cols) & set(exist_cols))).sort_values('index').set_index('index').reset_index(drop=True)
+        return (
+            pd.concat([res, problems])
+            .drop(columns=list(set(self.drop_cols) & set(exist_cols)))
+            .sort_values("index")
+            .set_index("index")
+            .reset_index(drop=True)
+        )
