@@ -62,6 +62,11 @@ docker compose build --no-cache
 ```
 docker compose up
 ```
+Если вышла надпись про то, что невозможно подключиться к базе данных из `ubuntu_client`, то перезапустите docker compose (это возникает из-за того, что база данных не успела инициализироваться):
+```
+docker compose down
+docker compose up
+```
 6. Бэкенд будет полностью готов к работе через 10 секунд. Войдите в контейнер `ubuntu_client`:
 ```
 docker exec -it ubuntu_client bash
