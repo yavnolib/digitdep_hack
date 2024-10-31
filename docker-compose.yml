@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: gpn_postgres_db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 12345678
+      POSTGRES_DB: lotdb
+    ports:
+      - "7799:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - db_network
+
+  ubuntu_client:
+    build:
+      context: .
+      dockerfile: docker/ubuntu/Dockerfile  # Указываем Dockerfile для сборки
+    container_name: ubuntu_client
+    tty: true  # Оставляет контейнер работающим для подключения
+    volumes:
+      - .:/mnt  # Монтируем текущую директорию в /mnt контейнера
+    networks:
+      - db_network
+
+volumes:
+  postgres_data:
+
+networks:
+  db_network:

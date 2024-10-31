@@ -1,0 +1,1 @@
+psql -h gpn_postgres_db -U admin -d lotdb
