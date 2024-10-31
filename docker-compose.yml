@@ -19,8 +19,6 @@ services:
       dockerfile: docker/ubuntu/Dockerfile  # Указываем Dockerfile для сборки
     container_name: ubuntu_client
     tty: true  # Оставляет контейнер работающим для подключения
-    volumes:
-      - .:/mnt  # Монтируем текущую директорию в /mnt контейнера
     networks:
       - db_network
 
