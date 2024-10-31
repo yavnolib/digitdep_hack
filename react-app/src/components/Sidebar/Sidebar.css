@@ -1,0 +1,25 @@
+.sidebar {
+    margin-top: 20px;
+}
+.sidebar-btn {
+    width: 49%;
+    font-size: 130%;
+    border: none;
+    height: 40px;
+    background-color: #06548A;
+    color: white;
+    vertical-align: bottom;
+}
+.sidebar-btn:disabled {
+    width: 51%;
+    height: 46px;
+    background-color: #067AC7;
+}
+.sidebar-content {
+    height: 78vh;
+    width: 100%;
+    background-color: #067AC7;
+}
+.sidebar-btn:focus{
+    background-color: #067AC7;
+}
